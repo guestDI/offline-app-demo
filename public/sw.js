@@ -1,4 +1,4 @@
-const CACHE_NAME = 'offline-todo-v1';
+const CACHE_NAME = 'offline-notes-v1';
 const urlsToCache = [
   '/',
   '/index.html',

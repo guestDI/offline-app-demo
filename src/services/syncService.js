@@ -91,7 +91,14 @@ class SyncService {
       
       // Update local database with resolved data
       for (const note of mergedNotes) {
-        await indexedDBService.saveNote({ ...note, needsSync: false });
+        // Only update if the note has changed
+        const localNote = localNotes.find(n => n.id === note.id);
+        if (!localNote || localNote.updatedAt !== note.updatedAt) {
+          await indexedDBService.saveNote({
+            ...note,
+            needsSync: false // Explicitly mark as synced
+          });
+        }
       }
     } catch (error) {
       console.error('Failed to pull from server:', error);

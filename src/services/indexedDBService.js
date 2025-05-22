@@ -55,14 +55,18 @@ class IndexedDBService {
     } else {
       isNew = true;
     }
+
     const noteWithTimestamp = {
       ...note,
       updatedAt: new Date().toISOString(),
-      needsSync: note.needsSync !== false // Only set to true if not explicitly false
+      // Only set needsSync to true for new notes or when explicitly marked
+      needsSync: isNew || note.needsSync === true
     };
+
     const tx = this.db.transaction(NOTES_STORE, 'readwrite');
     await tx.objectStore(NOTES_STORE).put(noteWithTimestamp);
-    // Only add to sync queue if needsSync is true (i.e., local change)
+
+    // Only add to sync queue if needsSync is true
     if (noteWithTimestamp.needsSync) {
       await this.addToSyncQueue(isNew ? 'CREATE_NOTE' : 'UPDATE_NOTE', noteWithTimestamp);
     }
