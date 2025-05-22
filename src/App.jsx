@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNotes } from './hooks/useNotes';
 import NotesList from './components/NoteList/NoteList';
 import NoteEditor from './components/NoteEditor/NoteEditor';
-import ConnectionStatus from './components/ConnectionStatus';
+import ConnectionStatus from './components/ConnectionStatus/ConnectionStatus';
 import SyncNotification from './components/SyncNotification/SyncNotification';
 import './App.css';
 
